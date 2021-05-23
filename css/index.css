@@ -174,6 +174,7 @@ nav {
     padding-right: 40px;
     text-align: center;
     margin-right: 40px;
+    cursor: pointer;
 }
 .wrap-item .box .list img{
     width: 133px;
@@ -681,6 +682,27 @@ nav {
     float: left;
     margin: 0 0 14px 14px;
 }
+/*公用得hover样式*/
+.gongyong,
+.xiaomi-phone-left,
+.carton .xiaomi-phone,
+.xiaomi-phone-right a ,
+.tv-box .tv-box-left,
+.tv-box-right ,
+.tv-box-right2 .tv-box-split ,
+.tv-box-right2 .read-more {
+    cursor: pointer;
+    transition: all 500ms linear;
+}
+.carton .gongyong a:hover,
+.tv-box-left:hover,
+.tv-box-right:hover ,
+.tv-box-right2 .tv-box-split:hover ,
+.tv-box-right2 .read-more:hover {
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.8);
+    transform: translate3d(0,-5px,0) rotateX(2deg);
+}
+
 
 .carton .xiaomi-phone .xiaomi-phone-right a>img {
     width: 160px;

@@ -4,7 +4,7 @@ function tab() {
     let list = ``
     let wrap_item = $('.wrap-item')
     //封装图片 文字
-    function joint() {
+ function joint() {
        let imgs = ["shouji10.webp", "shouhuan.webp", "sj11.webp", "sj12.webp", "sj13.webp", "yj.webp"]
        let texts = ['小米11 Ultra ', "小米手环" ," 小米10", "小米9" , "小米8" , "烟机"]
        let price = ['5999元', '100元', '3000元', '3500元', '4000元', '8888元']
@@ -23,7 +23,7 @@ function tab() {
          }
  }joint()
 
-    function tabCut() {
+function tabCut() {
         let nav = $$('.site-header div .nav .front a');
         let box = wrap_item.children
         for (let i = 0; i < nav.length; i++) {
@@ -159,14 +159,14 @@ let auto_play = () => {
         dot[index].classList.add('active')
 }
 //开启定时器
-let timer = setInterval(auto_play ,5000)
+let timer = setInterval(auto_play ,3000)
 //停止定时器
 let banner = $('.banner')
 banner.onmousemove = function () { //鼠标被移动
         clearInterval(timer)
 }
 banner.onmouseleave = function () {
-    timer = setInterval(auto_play ,5000)
+    timer = setInterval(auto_play ,3000)
 }
 //箭头
 function moveArrows() {
@@ -239,8 +239,8 @@ function  cart() {
     }
 }
 cart();
-//搜索框
 
+//搜索框
 function search() {
     // let box_search = $('.site-header .search .search-box');
     let search_input = $('.site-header .search .search-box input');
@@ -265,3 +265,29 @@ function search() {
 }
 search()
 
+
+//14:00 定时器倒计时
+function _count_down() {
+    let box = $('.count-down')
+    let _hour = box.children[0]
+    let _min = box.children[2]
+    let _s = box.children[4]
+    let  timer = function count_down() {
+            let end_time = new Date('2021/11/11 14:00:00'); //声明自己定义的活动结束时间
+            let now_time = new Date(); //声明现在的时间
+            //用定义结束得时间减去现在得时间
+            let time_remaining = parseInt((end_time.getTime() - now_time.getTime()) / 1000);
+            let hour = parseInt(time_remaining/ 3600 % 24); //获得小时数
+             hour = hour< 10 ? `0${ hour }`: hour
+            let min = parseInt(time_remaining / 60 % 60 );//获得分钟
+            min = min < 10 ? `0${ min }`: min
+            let s = parseInt(time_remaining % 60); //获得秒
+             s = s< 10 ? `0${ s }`: s
+             //赋值
+            _hour.innerHTML = hour
+            _min.innerHTML = min
+            _s.innerHTML = s
+        }
+        setInterval(timer,1);
+
+}_count_down()
