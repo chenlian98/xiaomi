@@ -138,84 +138,75 @@ function navLeft(){
 
 
 
-//轮播图
-let bannerImg = $$('.container .wrap-banner .banner img');
-bannerImg[0].classList.add('show-active')//第一个先显示
-let dot = $$('.container .wrap-banner .dot a') //小点点
-dot[0].classList.add('active')//第一点点显示
-let index = 0       //表示第几张图片在展示
-let auto_play = () => {
+function  carousel(){
+    let bannerImg = $$('.container .wrap-banner .banner img');
+    bannerImg[0].classList.add('show-active')//第一个先显示
+    let dot = $$('.container .wrap-banner .dot a') //小点点
+    dot[0].classList.add('active')//第一点点显示
+    let index = 0       //表示第几张图片在展示
+    function bianli() {
         //遍历所有图片
         for (let i = 0; i < bannerImg.length; i++) {
             //所有的图片先给他隐藏了
             bannerImg[index].classList.remove('show-active')
             dot[index].classList.remove('active')
         }
-        index += 1
+        index += 1 //每次让index+1
         if (index >= bannerImg.length) {
-            index = 0
+            index = 0 //index 大于 图片的长度再给它变成 0
         }
         bannerImg[index].classList.add('show-active')
         dot[index].classList.add('active')
-}
-//开启定时器
-let timer = setInterval(auto_play ,5000)
-//停止定时器
-let banner = $('.banner')
-banner.onmousemove = function () { //鼠标被移动
-        clearInterval(timer)
-}
-banner.onmouseleave = function () {
-    timer = setInterval(auto_play ,5000)
-}
-//箭头
-function moveArrows() {
-//左右箭头的方法
-    let  arrows = $$('.container .wrap-banner .arrows span');
-    let  leftArrow = $('.container .wrap-banner .arrows span:first-child');
-    let  rightArrow = $('.container .wrap-banner .arrows span:last-child');
-    for (let arw of arrows) { //小箭头 onmouseover
-        arw.onmouseover = function () {
-            this.classList.add('active')
-        }
-        arw.onmouseleave = function (event) {
-            this.classList.remove('active')
+    }
+    function removeItem() {
+        for (let i = 0; i < bannerImg.length; i++) {
+            bannerImg[index].classList.remove('show-active')
+            dot[index].classList.remove('active')
         }
     }
-    leftArrow.addEventListener('click',function () {
-        for (let i = 0; i < bannerImg.length; i++) {
-            //所有的图片先给他隐藏了
-            bannerImg[index].classList.remove('show-active')
-            dot[index].classList.remove('active')
+    let auto_play = () => bianli()  //开启定时器
+    let timer = setInterval(auto_play ,5000)
+//停止定时器
+    let banner = $('.banner')
+    banner.onmousemove = function () { //鼠标被移动
+        clearInterval(timer)
+    }
+    banner.onmouseleave = function () {
+        timer = setInterval(auto_play ,5000)
+    }
+//箭头
+    function moveArrows() {
+//左右箭头的方法
+        let  arrows = $$('.container .wrap-banner .arrows span');
+        let  leftArrow = $('.container .wrap-banner .arrows span:first-child');
+        let  rightArrow = $('.container .wrap-banner .arrows span:last-child');
+        for (let arw of arrows) { //小箭头 onmouseover
+            arw.onmouseover = function () {
+                this.classList.add('active')
+            }
+            arw.onmouseleave = function () {
+                this.classList.remove('active')
+            }
         }
-        index -= 1
-        if (index < 0) {
-            index = bannerImg.length - 1
-        }
-        bannerImg[index].classList.add('show-active')
-        dot[index].classList.add('active')
-    })
-    rightArrow.addEventListener('click',function () {
-        auto_play()
-    })
-}moveArrows()
+        leftArrow.addEventListener('click',bianli )
+        rightArrow.addEventListener('click',auto_play)
+    }moveArrows()
 //dot 点点
-function dotfun() {
-let dot = $$('.container .wrap-banner .dot a')
-for (let i = 0; i < dot.length; i++) {
-    dot[i].addEventListener('click',function () {
-        for (let i = 0; i < bannerImg.length; i++) {
-            bannerImg[index].classList.remove('show-active')
-            dot[index].classList.remove('active')
+    function dotfun() {
+        let dot = $$('.container .wrap-banner .dot a')
+        for (let i = 0; i < dot.length; i++) {
+            dot[i].addEventListener('click',function () {
+                removeItem() //调用遍历方法先把所有的类名移出了
+                //获得到自定义的属性值
+                index = Number(this.getAttribute('data-index')) //转成数字类型
+                bannerImg[index].classList.add('show-active')
+                dot[index].classList.add('active')
+                // console.log(index)
+            })
         }
-            //获得到自定义的属性值
-        index = Number(this.getAttribute('data-index')) //转成数字类型
-        bannerImg[index].classList.add('show-active')
-        dot[index].classList.add('active')
-        // console.log(index)
-    })
-}
-}dotfun()
+    }dotfun()
+}carousel()
+
 
 /*购物车*/
 function  cart() {
