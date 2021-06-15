@@ -378,10 +378,10 @@ nav {
     background: url("../images/icon-slides.png") no-repeat -121px 0/cover;
     left: 951px;
 }
-.container .wrap-banner .arrows span:first-child.active {
+.container .wrap-banner .arrows span:first-child:hover {
     background: url("../images/icon-slides.png") no-repeat 0 0/cover;
 }
-.container .wrap-banner .arrows span:last-child.active {
+.container .wrap-banner .arrows span:last-child:hover {
    background: url("../images/icon-slides.png") no-repeat -41px 0/cover;
 }
 
@@ -1154,42 +1154,42 @@ nav {
     border: 1px solid #f5f5f5;
 }
 
-.menu li{
+.menu div{
     border-bottom: 1px solid #f5f5f5;
     background: #fff;
 }
 
-.menu li:nth-child(1) a{
+.menu div:nth-child(1) a{
     background-image: url("../images/cellphone1.png");
 }
 
-.menu li:nth-child(2) a{
+.menu div:nth-child(2) a{
     background-image: url("../images/user1.png");
 }
-.menu li:nth-child(3) a{
+.menu div:nth-child(3) a{
     background-image: url("../images/After-sales1.png");
 }
-.menu li:nth-child(4) a{
+.menu div:nth-child(4) a{
     background-image: url("../images/customer-service.png");
 }
-.menu li:nth-child(5) a{
+.menu div:nth-child(5) a{
     background-image: url("../images/right-cart1.png");
 }
 
 /* hover*/
-.menu li:nth-child(1) a:hover{
+.menu div:nth-child(1) a:hover{
     background-image: url("../images/cellphone2.png");
 }
-.menu li:nth-child(2) a:hover{
+.menu div:nth-child(2) a:hover{
     background-image: url("../images/user2.png");
 }
-.menu li:nth-child(3) a:hover{
+.menu div:nth-child(3) a:hover{
     background-image: url("../images/After-sales2.png");
 }
-.menu li:nth-child(4) a:hover{
+.menu div:nth-child(4) a:hover{
     background-image: url("../images/customer-service2.png");
 }
-.menu li:nth-child(5) a:hover{
+.menu div:nth-child(5) a:hover{
     background-image: url("../images/right-cart2.png");
 }
 

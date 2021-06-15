@@ -1,8 +1,9 @@
 /** 21-05-22 10:04  1.0.6  星期六 第六次改版
+ *  21-06-15 17:00 1.0.7 星期二 第7次改
  * 小米 tab切换  */
 function tab() {
     let list = ``
-    let wrap_item = $('.wrap-item')
+    let wrap_item = _$('.wrap-item')
     //封装图片 文字
  function joint() {
        let imgs = ["shouji10.webp", "shouhuan.webp", "sj11.webp", "sj12.webp", "sj13.webp", "yj.webp"]
@@ -24,7 +25,7 @@ function tab() {
  }joint()
 
 function tabCut() {
-        let nav = $$('.site-header div .nav .front a');
+        let nav = _$$('.site-header div .nav .front a');
         let box = wrap_item.children
         for (let i = 0; i < nav.length; i++) {
             nav[i].onmouseover = box[i].onmouseover = function () {
@@ -50,9 +51,9 @@ function tabCut() {
  */
 function navLeft(){
     //nav-none-item 24个需要循环
-    let banner_list = $$('.banner-list')//所有的a标签导航栏 10个
+    let banner_list = _$$('.banner-list')//所有的a标签导航栏 10个
     //插入HTML
-    let wrap_banner = $('.wrap-banner')
+    let wrap_banner = _$('.wrap-banner')
     for (let i = 0; i < 10; i++) { //nav_none创建十次
         let divs = document.createElement('div')
             divs.classList.add('nav-none')
@@ -103,7 +104,7 @@ function navLeft(){
             item.append(spans)
         }
     }
-    let nav_none = $$('.nav-none')
+    let nav_none = _$$('.nav-none')
     //使用变色来区分一下
     let bs = ['#FFF','#aeb2f8','#d391f5','#ffb57d','#59d3fc','#ca83ff','#ff6cf0','#fcbcc7','#8b8786','#f5f594']
     for (let i = 0; i < banner_list.length; i++) {
@@ -139,90 +140,105 @@ function navLeft(){
 
 
 //轮播图
-let bannerImg = $$('.container .wrap-banner .banner img');
-bannerImg[0].classList.add('show-active')//第一个先显示
-let dot = $$('.container .wrap-banner .dot a') //小点点
-dot[0].classList.add('active')//第一点点显示
-let index = 0       //表示第几张图片在展示
-let auto_play = () => {
+let bannerImg = _$$('.container .wrap-banner .banner img'); //所有得图片
+let dot = _$$('.container .wrap-banner .dot a') //小点点
+let index = 0   //表示第几张图片在展示  通过计数
+function auto_play(){ //operator 运算符
         //遍历所有图片
         for (let i = 0; i < bannerImg.length; i++) {
-            //所有的图片先给他隐藏了
+            ////先移出所有图片的类名
             bannerImg[index].classList.remove('show-active')
             dot[index].classList.remove('active')
         }
-        index += 1
-        if (index >= bannerImg.length) {
-            index = 0
-        }
-        bannerImg[index].classList.add('show-active')
-        dot[index].classList.add('active')
+            index += 1  //通过每次+1 去改变图片
+            //如果数字大于 图片得长度了，则数字变为 0
+            index = index >= bannerImg.length ?  0 : index
+            bannerImg[index].classList.add('show-active')
+            dot[index].classList.add('active')
 }
+
+// prototype  给 auto_play的原型对象中增加一个方法
+auto_play.prototype.delete = function () {
+    for (let i = 0; i < bannerImg.length; i++) { //先隐藏它所有的图片
+        bannerImg[index].classList.remove('show-active')
+        dot[index].classList.remove('active')
+    }
+}
+ //new 一个构造函数 然后给 auto_play 的原型对象 增加一个方法 delete()
+let d = new auto_play()   //调用它    d.delete()
+
 //开启定时器
-let timer = setInterval(auto_play ,3000)
+let timer = setInterval(auto_play ,4000)
 //停止定时器
-let banner = $('.banner')
-banner.onmousemove = function () { //鼠标被移动
-        clearInterval(timer)
-}
-banner.onmouseleave = function () {
-    timer = setInterval(auto_play ,3000)
-}
+let banner = _$('.banner')
+//移入停止
+banner.addEventListener('mouseenter',function () {
+    clearInterval(timer)
+})
+//移出来 继续
+banner.addEventListener('mouseleave',function (){
+    timer = setInterval(auto_play ,4000)
+})
+
 //箭头
 function moveArrows() {
 //左右箭头的方法
-    let  arrows = $$('.container .wrap-banner .arrows span');
-    let  leftArrow = $('.container .wrap-banner .arrows span:first-child');
-    let  rightArrow = $('.container .wrap-banner .arrows span:last-child');
-    for (let arw of arrows) { //小箭头 onmouseover
-        arw.onmouseover = function () {
-            this.classList.add('active')
-        }
-        arw.onmouseleave = function (event) {
-            this.classList.remove('active')
-        }
-    }
+    let  leftArrow = _$('.container .wrap-banner .arrows span:first-child');
+    let  rightArrow = _$('.container .wrap-banner .arrows span:last-child');
     leftArrow.addEventListener('click',function () {
-        for (let i = 0; i < bannerImg.length; i++) {
-            //所有的图片先给他隐藏了
-            bannerImg[index].classList.remove('show-active')
-            dot[index].classList.remove('active')
-        }
+        d.delete() //先移出所有图片的类名
         index -= 1
-        if (index < 0) {
-            index = bannerImg.length - 1
-        }
+        //如果数字小于0  则数字 等于图片的长度 - 1
+        index = index < 0 ? index = bannerImg.length - 1 : index
+
         bannerImg[index].classList.add('show-active')
         dot[index].classList.add('active')
+        // // auto_play()
     })
     rightArrow.addEventListener('click',function () {
         auto_play()
     })
 }moveArrows()
+
 //dot 点点
-function dotfun() {
-let dot = $$('.container .wrap-banner .dot a')
+function dots() {
+let dot = _$$('.container .wrap-banner .dot a')
 for (let i = 0; i < dot.length; i++) {
     dot[i].addEventListener('click',function () {
-        for (let i = 0; i < bannerImg.length; i++) {
-            bannerImg[index].classList.remove('show-active')
-            dot[index].classList.remove('active')
-        }
-            //获得到自定义的属性值
-        index = Number(this.getAttribute('data-index')) //转成数字类型
-        bannerImg[index].classList.add('show-active')
-        dot[index].classList.add('active')
-        // console.log(index)
-    })
-}
-}dotfun()
+        //方法1
+       //  d.delete() //先移出所有图片的类名
+       //
+       // //获得到自定义的属性值 转成数字类型
+       //  index = Number(this.getAttribute('data-index'))
+       //  bannerImg[index].classList.add('show-active')
+       //  dot[index].classList.add('active')
+        //方法2
+        auto_play()
+     })
+  }
+}dots()
+
+
+
+
+ //hover得效果 变背景图
+// let  arrows = _$$('.container .wrap-banner .arrows span');
+// // for (let arw of arrows) { //小箭头 onmouseover
+// //     arw.addEventListener('mouseenter',function (){
+// //         this.classList.add('active')
+// //     })
+// //     arw.addEventListener('mouseleave',function (){
+// //         this.classList.remove('active')
+// //     })
+// // }
+
 
 /*购物车*/
 function  cart() {
-    let box= $('header .top-header .topbar-cart .box-cart');/*获取标签*/
-    let a = $('.topbar-cart .box-cart a');
-    let span = $('header .top-header .topbar-cart .box-cart span');
-    let list= $('header .top-header .topbar-cart .list');
+    let box= _$('header .top-header .topbar-cart .box-cart');/*获取标签*/
+    let a = _$('.topbar-cart .box-cart a');
+    let span = _$('header .top-header .topbar-cart .box-cart span');
+    let list= _$('header .top-header .topbar-cart .list');
     //移入显示 增加类名
     box.onmouseover = function (){
         list.classList.add('active');
@@ -243,11 +259,11 @@ cart();
 //搜索框
 function search() {
     // let box_search = $('.site-header .search .search-box');
-    let search_input = $('.site-header .search .search-box input');
+    let search_input = _$('.site-header .search .search-box input');
     //magnifying glass  放大镜
-    let  magnifying_glass = $('.site-header .search .search-box a');
+    let  magnifying_glass = _$('.site-header .search .search-box a');
     //pull-down-list 搜索框下面的下拉列表
-    let  pull_down_list = $('.site-header .communal .search .pull-down-list');
+    let  pull_down_list = _$('.site-header .communal .search .pull-down-list');
     //获取焦点的时候做的事情
      search_input.onfocus = function () {
          search_input.classList.add('active');
@@ -268,7 +284,7 @@ search()
 
 //14:00 定时器倒计时
 function _count_down() {
-    let box = $('.count-down')
+    let box = _$('.count-down')
     let _hour = box.children[0]
     let _min = box.children[2]
     let _s = box.children[4]
